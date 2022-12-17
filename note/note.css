@@ -1,0 +1,17 @@
+.note {
+    display: flex;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+.note-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.note-form__btn {
+    height: 50px;
+    width: 300px;
+}
