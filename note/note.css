@@ -11,6 +11,11 @@
     gap: 40px;
 }
 
+.note-form__input {
+    font-size: 20px;
+    padding: 10px;
+}
+
 .note-form__btn {
     height: 50px;
     width: 300px;

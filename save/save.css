@@ -1,0 +1,28 @@
+
+
+.save {
+    margin: 0 auto;
+    width: 600px;
+    height: 300px;
+    margin-bottom: 40px;
+}
+
+.save-list {
+    height: 300px;
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.save__title {
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.save-list__item {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: whitesmoke;
+    margin-bottom: 10px;
+}

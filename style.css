@@ -1,3 +1,11 @@
+@import './header/header.css';
+@import './note/note.css';
+@import './save/save.css';
+
+* {
+    box-sizing: border-box;
+}
+
 html {
     height: 100%;
 }
