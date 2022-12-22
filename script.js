@@ -19,6 +19,7 @@ function saveMessage() {
         counter++;
         localStorage.setItem(counter, message);
         addMessage(message);
+        location.reload()
     });
 }
 
@@ -31,18 +32,28 @@ function addMessage(elem) {
         `;
 
         storageList.append(element);
+        
 }
 
 function deleteMessage() {
-    // storageList.addEventListener((e) => {
-    //     // if(e.target.className === 'save-list__item') {
-    //     //     console.log(1)
-    //     // }
-
-    // });
+    const elements = document.querySelectorAll('.save-list__item');
+   const valuesOfStorage = Object.values(localStorage);
+   
+    elements.forEach(item1 => {
+        item1.addEventListener('dblclick', () => {
+            valuesOfStorage.forEach((item2, ind ) => {
+                if(item1.innerText == item2) {
+                   const u = Object.keys(localStorage)
+                    localStorage.removeItem(u[ind])
+                    location.reload()
+                }
+            })
+        })
+       
+    })
 }
 
-deleteMessage();
+
 
 saveMessage();
 
@@ -62,3 +73,4 @@ function render() {
 }
 
 render();
+deleteMessage();
