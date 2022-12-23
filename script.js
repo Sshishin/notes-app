@@ -1,5 +1,3 @@
-// Баг
-// При вводе примерно больше 5 заметок, последние не удаляются до тех пор, пока не удалить заметку номером до 5
 
 'use strict';
 
@@ -9,12 +7,11 @@ const storageList = document.querySelector('.save-list'),
       resetBtn = document.querySelector('.note-form__btn-reset');
 
 let counter;
-let r = Object.keys(localStorage)
 
 if(localStorage.length < 1) {
     counter = 0;
 } else {
-    counter = currentCount ()
+    counter = currentCount ();
 }
 
 function currentCount () {
@@ -23,26 +20,28 @@ function currentCount () {
     keys.sort((a,b) => {
         return a - b;
     });
-   return keys[keys.length - 1]
+   return keys[keys.length - 1];
 } 
 
 function saveMessage() {
     
     form.onkeydown = (e) => {
         if(e.keyCode === 13) {
-            e.preventDefault()
-            submitMessage();
-            deleteMessage()
-            form.value = ''
+            e.preventDefault();
+            updateNotes();
         }
-    }
+    };
 
     button.addEventListener('click', () => {
-        submitMessage();
-        deleteMessage()
-    });
-    
-    
+        updateNotes();
+    }); 
+
+}
+
+function updateNotes() {
+    submitMessage();
+    deleteMessage();
+    form.value = '';
 }
 
 function submitMessage() {
@@ -67,29 +66,31 @@ function addMessage(elem) {
 function deleteMessage() {
     const elements = document.querySelectorAll('.save-list__item');
    
-    elements.forEach(item1 => {
-        item1.addEventListener('dblclick', () => {
+    elements.forEach(listItem => {
+        
+        listItem.addEventListener('dblclick', () => {
             const valuesOfStorage = Object.values(localStorage);
-            valuesOfStorage.forEach((item2, ind ) => {
-                item2 = item2.trim();
-                if(item1.innerText == item2) {
-                   const u = Object.keys(localStorage)
-                    localStorage.removeItem(u[ind])
-                    location.reload()
+            
+            valuesOfStorage.forEach((message, i) => {
+                message = message.trim();
+                
+                if(listItem.innerText == message) {
+                   const keys = Object.keys(localStorage);
+                    localStorage.removeItem(keys[i]);
+                    location.reload();
                 }
-            })
-        })
-       
-    })
+            });
+        });
+    });
 }
 
 
 
 
 
-function render() {
+function sortOfMessage() {
     if(localStorage.length > 0) {
-    let keys = Object.keys(localStorage);
+    const keys = Object.keys(localStorage);
         
     keys.sort((a,b) => {
         return a - b;
@@ -104,12 +105,15 @@ function render() {
 
 function resetStorage() {
     resetBtn.addEventListener('click', () => {
-        localStorage.clear();
-        location.reload();
-    })
+        const answer = confirm('Вы действительно хотите удалить все заметки?');
+        if(answer) {
+            localStorage.clear();
+            location.reload();
+        }
+    });
 }
 
 saveMessage();
-render();
+sortOfMessage();
 deleteMessage();
 resetStorage();
