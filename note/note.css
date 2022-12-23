@@ -1,3 +1,6 @@
+@import url(../css/fonts.css);
+
+
 .note {
     display: flex;
     justify-content: center;
@@ -8,15 +11,47 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 40px;
+    gap: 20px;
 }
 
 .note-form__input {
-    font-size: 20px;
+    max-width: 600px;
+    font-size: 24px;
     padding: 10px;
+    outline: none;
+    border: none;
+    box-shadow: 0px 2px 5px 0px rgb(179, 179, 179);
+}
+
+.note-form__input:focus {
+    box-shadow: 0px 2px 5px 0px rgb(110, 110, 110);
+
 }
 
 .note-form__btn {
     height: 50px;
     width: 300px;
+    box-shadow: 0px 2px 5px 0px rgb(179, 179, 179);
+    border: none;
+    background-color: white;
+    font-family: 'Inter-Regular';
+    font-size: 16px;
+}
+
+.note-form__btn-reset {
+    height: 50px;
+    width: 300px;
+    box-shadow: 0px 2px 5px 0px rgb(179, 179, 179);
+    border: none;
+    background-color: white;
+    font-family: 'Inter-Regular';
+    font-size: 16px;
+}
+
+.note-form__btn-reset:hover {
+    box-shadow: 0px 2px 5px 0px rgb(110, 110, 110);
+}
+
+.note-form__btn:hover {
+    box-shadow: 0px 2px 5px 0px rgb(110, 110, 110);
 }
