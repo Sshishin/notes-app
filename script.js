@@ -31,12 +31,25 @@ function saveMessage() {
             updateNotes();
         }
     };
-
-    button.addEventListener('click', () => {
-        updateNotes();
-    }); 
+    const rt = document.querySelector('.note-form__btn.edit')
+    console.log(rt)
+    if(!rt) {
+        button.addEventListener('click', firstListener)
+    } else {
+        button.removeEventListener('click', firstListener)
+    }
+    
 
 }
+
+function firstListener(){
+    const rt = document.querySelector('.note-form__btn.edit')
+    if(!rt) {
+        console.log('Первый обработчик')
+        updateNotes();
+    } 
+    
+}; 
 
 function updateNotes() {
     submitMessage();
@@ -103,6 +116,38 @@ function sortOfMessage() {
     }
 }
 
+function editMessage() {
+    const elements = document.querySelectorAll('.save-list__item');
+
+    elements.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            form.value = item.innerText;
+            button.classList.add('edit');
+            button.innerHTML = 'Сохранить';
+
+            const rt = document.querySelector('.note-form__btn.edit')
+            if(rt) {
+                button.addEventListener('click', secondListener)
+            } else {
+                button.removeEventListener('click', secondListener)
+            }
+
+            // console.log(Object.values(localStorage))
+            // console.log(Object.keys(localStorage))
+        });
+    });
+}
+
+function secondListener() {
+    const rt = document.querySelector('.note-form__btn.edit')
+    if(rt) {
+        console.log('Второй обработчик')
+        form.value = '';
+        button.classList.remove('edit')
+        button.innerHTML = 'Отправить';
+    } 
+}
+
 function resetStorage() {
     resetBtn.addEventListener('click', () => {
         const answer = confirm('Вы действительно хотите удалить все заметки?');
@@ -113,7 +158,9 @@ function resetStorage() {
     });
 }
 
+
 saveMessage();
 sortOfMessage();
 deleteMessage();
 resetStorage();
+editMessage()
