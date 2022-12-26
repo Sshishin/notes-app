@@ -73,7 +73,7 @@ function addMessage(elem) {
         `;
 
         storageList.append(element);
-        
+        editMessage();
 }
 
 function deleteMessage() {
@@ -121,6 +121,7 @@ function editMessage() {
 
     elements.forEach((item) => {
         item.addEventListener('click', (e) => {
+            console.log('123')
             form.value = item.innerText;
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
@@ -163,4 +164,4 @@ saveMessage();
 sortOfMessage();
 deleteMessage();
 resetStorage();
-editMessage()
+editMessage();
