@@ -73,7 +73,7 @@ function addMessage(elem) {
         `;
 
         storageList.append(element);
-        editMessage();
+        // editMessage();
 }
 
 function deleteMessage() {
@@ -129,12 +129,10 @@ function editMessage() {
             const rt = document.querySelector('.note-form__btn.edit')
             if(rt) {
                 button.addEventListener('click', secondListener)
-            } else {
-                button.removeEventListener('click', secondListener)
-            }
-
-            // console.log(Object.values(localStorage))
-            // console.log(Object.keys(localStorage))
+                
+            } //else {  //Не участвует в таком виде в работе
+            //     button.removeEventListener('click', secondListener)
+            // }
         });
     });
 }
@@ -142,12 +140,46 @@ function editMessage() {
 function secondListener() {
     const rt = document.querySelector('.note-form__btn.edit')
     if(rt) {
+        const values = Object.values(localStorage);
+        const keys = Object.keys(localStorage);
+        const text = document.querySelectorAll('.save-list__item')
+
+        // const t = keys.sort((a,b) => {
+        //     return a - b;
+        // })
+        
+        console.log(values)
+        console.log(keys)
+
+        // keys.forEach((item1, i) => {
+        //     values.forEach((item2, i) => {
+        //         if(form.value == item2)
+        //     }) 
+        // })
+
+//  ПЕРЕПИСАТЬ ЭТУ ЧАСТЬ В ФУНКЦИЮ КОТОРАЯ ОТВЕЧАЕТ ЗА ДОБАВЛЕНИЕ EDIT
+
+       keys.forEach((item, i) => {
+        // console.log(item)
+        //     console.log(localStorage.getItem(item))
+
+        values.forEach((item2,i) => {
+            if(localStorage.getItem(item) == form.value && item2 == form.value) {
+                // console.log(localStorage.getItem(item))
+                // console.log(form.value)
+                // console.log(item2)
+                localStorage.setItem(item, form.value)
+            }
+        })
+       })
+
         console.log('Второй обработчик')
         form.value = '';
         button.classList.remove('edit')
         button.innerHTML = 'Отправить';
     } 
 }
+
 
 function resetStorage() {
     resetBtn.addEventListener('click', () => {
