@@ -16,13 +16,11 @@ if(localStorage.length < 1) {
 
 function currentCount() {
     let keys = Object.keys(localStorage);
-    console.log(keys)
     keys.sort((a,b) => {
         return a - b;
     });
-    console.log(keys)
-    console.log(keys.length + 1)
-   return keys.length + 1;
+    keys = +keys.splice(-1)[0] + 1;
+   return keys;
 } 
 
 function saveMessage() {
@@ -74,7 +72,8 @@ function addMessage(elem) {
         `;
 
         storageList.append(element);
-        editMessage();
+        
+        // editMessage();       //Из за этой функции удаляются лишние сообщения
 }
 
 function deleteMessage() {
@@ -114,7 +113,6 @@ function sortOfMessage() {
     for(let key of keys) {
         console.log(key)
         const message = localStorage.getItem(key);
-        // addMessage(message);
         const element = document.createElement('div');
         element.classList.add('save-list__item');
         element.id = key
@@ -132,35 +130,31 @@ function editMessage() {
 
     elements.forEach((item) => {
         item.addEventListener('click', (e) => {
-            console.log('123')
             form.value = item.innerText;
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
 
-            console.log(item.id)
-
             const rt = document.querySelector('.note-form__btn.edit')
             if(rt) {
-                // button.addEventListener('click', secondListener)
-                form.addEventListener('change',(e) => {
-                    
+                
+                form.addEventListener('input',(e) => {
+                    localStorage.setItem(item.id, form.value)
                 });
+                button.addEventListener('click', secondListener)
             } 
         });
     });
 }
 
-// function secondListener() {
-//     const rt = document.querySelector('.note-form__btn.edit')
-//     if(rt) {
+function secondListener() {
 
 
-//         console.log('Второй обработчик')
-//         form.value = '';
-//         button.classList.remove('edit')
-//         button.innerHTML = 'Отправить';
-//     } 
-// }
+        console.log('Второй обработчик')
+        form.value = '';
+        button.classList.remove('edit')
+        button.innerHTML = 'Отправить';
+        location.reload()
+    } 
 
 
 function resetStorage() {
@@ -179,3 +173,4 @@ sortOfMessage();
 deleteMessage();
 resetStorage();
 editMessage();
+
