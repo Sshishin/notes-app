@@ -8,11 +8,13 @@ const storageList = document.querySelector('.save-list'),
 
 let counter;
 
+
 if(localStorage.length < 1) {
     counter = 0;
 } else {
     counter = currentCount();
 }
+
 
 function currentCount() {
     let keys = Object.keys(localStorage);
@@ -23,33 +25,32 @@ function currentCount() {
    return keys;
 } 
 
+
 function saveMessage() {
-    
+    const editStatus = document.querySelector('.note-form__btn.edit');
+
     form.onkeydown = (e) => {
         if(e.keyCode === 13) {
             e.preventDefault();
             updateNotes();
         }
     };
-    const rt = document.querySelector('.note-form__btn.edit')
-    console.log(rt)
-    if(!rt) {
-        button.addEventListener('click', firstListener)
-    } else {
-        button.removeEventListener('click', firstListener)
-    }
     
-
+    if(!editStatus) {
+        button.addEventListener('click', submitButtonListener);
+    } else {
+        button.removeEventListener('click', submitButtonListener);
+    }
 }
 
-function firstListener(){
-    const rt = document.querySelector('.note-form__btn.edit')
-    if(!rt) {
-        console.log('Первый обработчик')
+
+function submitButtonListener(){
+    const editStatus = document.querySelector('.note-form__btn.edit');
+    if(!editStatus) {
         updateNotes();
     } 
-    
-}; 
+}
+
 
 function updateNotes() {
     submitMessage();
@@ -57,13 +58,15 @@ function updateNotes() {
     form.value = '';
 }
 
+
 function submitMessage() {
     const message = form.value;
         localStorage.setItem(counter, message);
-        addMessage(message);
+        appendMessage(message);
 }
 
-function addMessage(elem) {
+
+function appendMessage(elem) {
     const element = document.createElement('div');
         element.classList.add('save-list__item');
         element.id = counter++;
@@ -76,15 +79,15 @@ function addMessage(elem) {
         editMessage(); 
 }
 
+
 function deleteMessage() {
     const elements = document.querySelectorAll('.save-list__item');
     const keys = Object.keys(localStorage);
+
     elements.forEach(listItem => {
-        
         listItem.addEventListener('dblclick', () => {
-            keys.forEach((key, i) => {
+            keys.forEach(key => {
                 if(listItem.id == key) {
-                   const keys = Object.keys(localStorage);
                     localStorage.removeItem(key);
                     location.reload();
                 }
@@ -94,20 +97,15 @@ function deleteMessage() {
 }
 
 
-
-
-
 function sortOfMessage() {
     if(localStorage.length > 0) {
     const keys = Object.keys(localStorage);
-    console.log(keys)
 
     keys.sort((a,b) => {
         return a - b;
     });
 
     for(let key of keys) {
-        console.log(key)
         const message = localStorage.getItem(key);
         const element = document.createElement('div');
         element.classList.add('save-list__item');
@@ -121,39 +119,42 @@ function sortOfMessage() {
     }
 }
 
+
 function editMessage() {
     const elements = document.querySelectorAll('.save-list__item');
+   
 
-    elements.forEach((item) => {
-        item.addEventListener('click', (e) => {
+    elements.forEach(item => {
+        
+        item.addEventListener('click', () => {
+            
             form.value = item.innerText;
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
-
-            const rt = document.querySelector('.note-form__btn.edit')
-            if(rt) {
-                
-                form.addEventListener('input',(e) => {
-                    localStorage.setItem(item.id, form.value)
+            
+            const editStatus = document.querySelector('.note-form__btn.edit');
+            if(editStatus) {
+                console.log('111')
+                form.addEventListener('input', () => {
+                    localStorage.setItem(item.id, form.value);
                 });
-                button.addEventListener('click', secondListener)
-            } 
+                button.addEventListener('click', editSubmitButtonListener);
+            }
+             
         });
     });
 }
 
-function secondListener() {
 
-
-        console.log('Второй обработчик')
+function editSubmitButtonListener() {
         form.value = '';
-        button.classList.remove('edit')
+        button.classList.remove('edit');
         button.innerHTML = 'Отправить';
-        location.reload()
-    } 
+        location.reload();
+} 
 
 
-function resetStorage() {
+function clearStorage() {
     resetBtn.addEventListener('click', () => {
         const answer = confirm('Вы действительно хотите удалить все заметки?');
         if(answer) {
@@ -167,5 +168,5 @@ function resetStorage() {
 saveMessage();
 sortOfMessage();
 deleteMessage();
-resetStorage();
+clearStorage();
 editMessage();
