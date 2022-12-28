@@ -66,30 +66,26 @@ function submitMessage() {
 function addMessage(elem) {
     const element = document.createElement('div');
         element.classList.add('save-list__item');
-        element.id = counter++;     //Передавать в качестве аргумента в сет айтем
+        element.id = counter++;
         element.innerHTML = `
             <span>${elem}</span>
         `;
 
         storageList.append(element);
         
-        // editMessage();       //Из за этой функции удаляются лишние сообщения
+        editMessage(); 
 }
 
 function deleteMessage() {
     const elements = document.querySelectorAll('.save-list__item');
-   
+    const keys = Object.keys(localStorage);
     elements.forEach(listItem => {
         
         listItem.addEventListener('dblclick', () => {
-            const valuesOfStorage = Object.values(localStorage);
-            
-            valuesOfStorage.forEach((message, i) => {
-                message = message.trim();
-                
-                if(listItem.innerText == message) {
+            keys.forEach((key, i) => {
+                if(listItem.id == key) {
                    const keys = Object.keys(localStorage);
-                    localStorage.removeItem(keys[i]);
+                    localStorage.removeItem(key);
                     location.reload();
                 }
             });
@@ -173,4 +169,3 @@ sortOfMessage();
 deleteMessage();
 resetStorage();
 editMessage();
-
