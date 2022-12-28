@@ -32,7 +32,7 @@ function saveMessage() {
     form.onkeydown = (e) => {
         if(e.keyCode === 13) {
             e.preventDefault();
-            updateNotes();
+            submitMessage();
         }
     };
     
@@ -47,15 +47,8 @@ function saveMessage() {
 function submitButtonListener(){
     const editStatus = document.querySelector('.note-form__btn.edit');
     if(!editStatus) {
-        updateNotes();
+        submitMessage();
     } 
-}
-
-
-function updateNotes() {
-    submitMessage();
-    deleteMessage();
-    form.value = '';
 }
 
 
@@ -63,6 +56,7 @@ function submitMessage() {
     const message = form.value;
         localStorage.setItem(counter, message);
         appendMessage(message);
+        
 }
 
 
@@ -73,10 +67,11 @@ function appendMessage(elem) {
         element.innerHTML = `
             <span>${elem}</span>
         `;
-
         storageList.append(element);
         
-        editMessage(); 
+        form.value = ''; 
+        editMessage();
+        deleteMessage(); 
 }
 
 
