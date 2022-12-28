@@ -109,7 +109,7 @@ function sortOfMessage() {
         const message = localStorage.getItem(key);
         const element = document.createElement('div');
         element.classList.add('save-list__item');
-        element.id = key
+        element.id = key;
         element.innerHTML = `
             <span>${message}</span>
         `;
@@ -131,10 +131,9 @@ function editMessage() {
             form.value = item.innerText;
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
-            
+
             const editStatus = document.querySelector('.note-form__btn.edit');
             if(editStatus) {
-                console.log('111')
                 form.addEventListener('input', () => {
                     localStorage.setItem(item.id, form.value);
                 });
