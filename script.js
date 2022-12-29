@@ -4,7 +4,8 @@
 const storageList = document.querySelector('.save-list'),
       button = document.querySelector('.note-form__btn'),
       form = document.querySelector('.note-form__input'),
-      resetBtn = document.querySelector('.note-form__btn-reset');
+      resetBtn = document.querySelector('.note-form__btn-reset'),
+      noteForm = document.querySelector('.note-form');
 
 let counter;
 
@@ -87,11 +88,33 @@ function editMessage() {
 
             const editStatus = document.querySelector('.note-form__btn.edit');
             if(editStatus) {
-                form.addEventListener('input', () => {
-                    localStorage.setItem(item.id, form.value);
-                });
-                button.addEventListener('click', editSubmitButtonListener);
-            }
+                const acceptStatus = document.querySelector('.note-form__accept')
+                const currentValue = form.value;
+                if(!acceptStatus) {
+                    const element = document.createElement('div');
+                    element.classList.add('note-form__accept');
+                    element.innerHTML = `
+                    <button class="note-form__submit-btn">Сохранить</button>
+                    <button class="note-form__cancel-btn">Отменить</button>
+                    `;
+                    noteForm.insertBefore(element, resetBtn);   
+                    form.addEventListener('input', () => {
+                        localStorage.setItem(item.id, form.value);
+                    });
+                    const acceptBtn = document.querySelector('.note-form__submit-btn');
+                    acceptBtn.addEventListener('click', editSubmitButtonListener); 
+                } 
+                    const cancelBtn = document.querySelector('.note-form__cancel-btn');
+                    const submitBtn = document.querySelector('.note-form__submit-btn');
+                    cancelBtn.addEventListener('click', () => {
+                        localStorage.setItem(item.id, currentValue);
+                        editSubmitButtonListener();
+                    });
+                   
+                
+    
+                 
+            } 
              
         });
     });
@@ -116,6 +139,8 @@ function deleteMessage() {
 
 
 function editSubmitButtonListener() {
+    const acceptStatus = document.querySelector('.note-form__accept')
+    acceptStatus.remove();
         form.value = '';
         button.classList.remove('edit');
         button.innerHTML = 'Отправить';

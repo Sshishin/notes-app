@@ -57,5 +57,33 @@
 }
 
 .edit {
-    content: '123';
+    display: none;
+}
+
+.note-form__submit-btn {
+    height: 50px;
+    width: 300px;
+    box-shadow: 0px 2px 5px 0px rgb(179, 179, 179);
+    border: none;
+    background-color: white;
+    font-family: 'Inter-Regular';
+    font-size: 16px;
+}
+
+.note-form__submit-btn:hover {
+    box-shadow: 0px 2px 5px 0px rgb(110, 110, 110);
+}
+
+.note-form__cancel-btn {
+    height: 50px;
+    width: 300px;
+    box-shadow: 0px 2px 5px 0px rgb(179, 179, 179);
+    border: none;
+    background-color: white;
+    font-family: 'Inter-Regular';
+    font-size: 16px;
+}
+
+.note-form__cancel-btn:hover {
+    box-shadow: 0px 2px 5px 0px rgb(110, 110, 110);
 }
