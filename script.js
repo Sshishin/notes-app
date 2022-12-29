@@ -81,7 +81,13 @@ function editMessage() {
     elements.forEach(item => {
         
         item.addEventListener('click', () => {
-            
+            const top = document.querySelector('body');
+
+            window.scrollTo({
+                top: top.offsetTop,
+                behavior: 'smooth' 
+            });
+
             form.value = item.innerText;
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
