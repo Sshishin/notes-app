@@ -82,11 +82,13 @@ function editMessage() {
         
         item.addEventListener('click', () => {
             const top = document.querySelector('body');
-
-            window.scrollTo({
-                top: top.offsetTop,
-                behavior: 'smooth' 
-            });
+            setTimeout (() => {
+                window.scrollTo({
+                    top: top.offsetTop,
+                    behavior: 'smooth' 
+                });
+            }, 75);
+           
 
             form.value = item.innerText;
             button.classList.add('edit');
@@ -104,7 +106,7 @@ function editMessage() {
                     <button class="note-form__cancel-btn">Отменить</button>
                     `;
                     noteForm.insertBefore(element, resetBtn);   
-                    form.addEventListener('input', () => {
+                    form.addEventListener('change', (e) => {
                         localStorage.setItem(item.id, form.value);
                     });
                     const acceptBtn = document.querySelector('.note-form__submit-btn');
@@ -145,7 +147,7 @@ function deleteMessage() {
 
 
 function editSubmitButtonListener() {
-    const acceptStatus = document.querySelector('.note-form__accept')
+    const acceptStatus = document.querySelector('.note-form__accept');
     acceptStatus.remove();
         form.value = '';
         button.classList.remove('edit');
