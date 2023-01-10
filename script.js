@@ -9,7 +9,6 @@ const storageList = document.querySelector('.save-list'),
 
 let counter;
 
-
 if(localStorage.length < 1) {
     counter = 0;
 } else {
@@ -59,13 +58,18 @@ function submitMessage() {
         appendMessage(message);
 }
 
+        //Добавил значок удаления сообщения
 
 function appendMessage(elem) {
     const element = document.createElement('div');
         element.classList.add('save-list__item');
         element.id = counter++;
         element.innerHTML = `
+
+            <div class="message-block">
             <span>${elem}</span>
+            <span data="delete-message">###</span>
+            </div>
         `;
         storageList.append(element);
         
@@ -87,9 +91,8 @@ function editMessage() {
                     top: top.offsetTop,
                     behavior: 'smooth' 
                 });
-            }, 75);
-           
-
+            }, 200);
+        
             form.value = item.innerText;
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
@@ -117,32 +120,32 @@ function editMessage() {
                     cancelBtn.addEventListener('click', () => {
                         localStorage.setItem(item.id, currentValue);
                         editSubmitButtonListener();
-                    });
-                   
-                
-    
-                 
+                    });    
             } 
-             
         });
     });
 }
 
+        //Доделать функцию 
 
 function deleteMessage() {
     const elements = document.querySelectorAll('.save-list__item');
     const keys = Object.keys(localStorage);
 
-    elements.forEach(listItem => {
-        listItem.addEventListener('dblclick', () => {
-            keys.forEach(key => {
-                if(listItem.id == key) {
-                    localStorage.removeItem(key);
-                    location.reload();
-                }
-            });
-        });
-    });
+    const attributesOfDelete = document.querySelectorAll('[data="delete-message"]')
+    console.log('delete')
+    console.log(attributesOfDelete)
+
+    // elements.forEach(listItem => {
+    //     listItem.addEventListener('dblclick', () => {
+    //         keys.forEach(key => {
+    //             if(listItem.id == key) {
+    //                 localStorage.removeItem(key);
+    //                 location.reload();
+    //             }
+    //         });
+    //     });
+    // });
 }
 
 
@@ -170,7 +173,10 @@ function sortOfMessage() {
         element.classList.add('save-list__item');
         element.id = key;
         element.innerHTML = `
-            <span>${message}</span>
+        <div class="message-block">
+        <span>${message}</span>
+        <span data="delete-message">###</span>
+        </div>
         `;
 
         storageList.append(element);
