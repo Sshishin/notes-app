@@ -35,6 +35,8 @@ function saveMessage() {
             submitMessage();
         }
     };
+
+            // Избавиться от edit статуса так как удаление реализована по кнопке 
     
     if(!editStatus) {
         button.addEventListener('click', submitButtonListener);
@@ -91,7 +93,7 @@ function editMessage() {
                     top: top.offsetTop,
                     behavior: 'smooth' 
                 });
-            }, 200);
+            }, 0);
         
             form.value = item.innerText;
             button.classList.add('edit');
@@ -132,20 +134,20 @@ function deleteMessage() {
     const elements = document.querySelectorAll('.save-list__item');
     const keys = Object.keys(localStorage);
 
-    const attributesOfDelete = document.querySelectorAll('[data="delete-message"]')
-    console.log('delete')
-    console.log(attributesOfDelete)
+    // const attributesOfDelete = document.querySelectorAll('[data="delete-message"]');
 
-    // elements.forEach(listItem => {
-    //     listItem.addEventListener('dblclick', () => {
-    //         keys.forEach(key => {
-    //             if(listItem.id == key) {
-    //                 localStorage.removeItem(key);
-    //                 location.reload();
-    //             }
-    //         });
-    //     });
-    // });
+    elements.forEach(listItem => {
+        listItem.addEventListener('click', (e) => {
+            if(e.target.textContent == '###') {
+                keys.forEach(key => {
+                    if(listItem.id == key) {
+                        localStorage.removeItem(key);
+                        location.reload();
+                    }
+                });
+            } 
+        });
+    });
 }
 
 
