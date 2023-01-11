@@ -69,8 +69,8 @@ function appendMessage(elem) {
         element.innerHTML = `
 
             <div class="message-block">
-            <span>${elem}</span>
-            <span data="delete-message">###</span>
+                <span>${elem}</span>
+                <button data="delete-message">Удалить</button>
             </div>
         `;
         storageList.append(element);
@@ -86,16 +86,17 @@ function editMessage() {
    
     elements.forEach(item => {
         
-        item.addEventListener('click', () => {
-            const top = document.querySelector('body');
-            setTimeout (() => {
-                window.scrollTo({
-                    top: top.offsetTop,
-                    behavior: 'smooth' 
-                });
-            }, 0);
+        item.addEventListener('click', (e) => {
+            if(e.target.innerText !== 'Удалить') {
+                const top = document.querySelector('body');
+                setTimeout (() => {
+                    window.scrollTo({
+                        top: top.offsetTop,
+                        behavior: 'smooth' 
+                    });
+                }, 0);
         
-            form.value = item.innerText;
+            form.value = e.target.innerText.replace(/Удалить/g, '');
             button.classList.add('edit');
             button.innerHTML = 'Сохранить';
 
@@ -124,6 +125,7 @@ function editMessage() {
                         editSubmitButtonListener();
                     });    
             } 
+            }
         });
     });
 }
@@ -138,7 +140,7 @@ function deleteMessage() {
 
     elements.forEach(listItem => {
         listItem.addEventListener('click', (e) => {
-            if(e.target.textContent == '###') {
+            if(e.target.textContent == 'Удалить') {
                 keys.forEach(key => {
                     if(listItem.id == key) {
                         localStorage.removeItem(key);
@@ -176,8 +178,8 @@ function sortOfMessage() {
         element.id = key;
         element.innerHTML = `
         <div class="message-block">
-        <span>${message}</span>
-        <span data="delete-message">###</span>
+            <span>${message}</span>
+            <button data="delete-message">Удалить</button>
         </div>
         `;
 
