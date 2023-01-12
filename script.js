@@ -27,7 +27,6 @@ function currentCount() {
 
 
 function saveMessage() {
-    const editStatus = document.querySelector('.note-form__btn.edit');
 
     form.onkeydown = (e) => {
         if(e.keyCode === 13) {
@@ -36,21 +35,7 @@ function saveMessage() {
         }
     };
 
-            // Избавиться от edit статуса так как удаление реализована по кнопке 
-    
-    if(!editStatus) {
-        button.addEventListener('click', submitButtonListener);
-    } else {
-        button.removeEventListener('click', submitButtonListener);
-    }
-}
-
-
-function submitButtonListener(){
-    const editStatus = document.querySelector('.note-form__btn.edit');
-    if(!editStatus) {
-        submitMessage();
-    } 
+    button.addEventListener('click', submitMessage);
 }
 
 
@@ -60,7 +45,6 @@ function submitMessage() {
         appendMessage(message);
 }
 
-        //Добавил значок удаления сообщения
 
 function appendMessage(elem) {
     const element = document.createElement('div');
@@ -83,9 +67,8 @@ function appendMessage(elem) {
 
 function editMessage() {
     const elements = document.querySelectorAll('.save-list__item');
-   
+
     elements.forEach(item => {
-        
         item.addEventListener('click', (e) => {
             if(e.target.innerText !== 'Удалить') {
                 const top = document.querySelector('body');
@@ -96,47 +79,56 @@ function editMessage() {
                     });
                 }, 0);
         
-            form.value = e.target.innerText.replace(/Удалить/g, '');
-            button.classList.add('edit');
-            button.innerHTML = 'Сохранить';
-
-            const editStatus = document.querySelector('.note-form__btn.edit');
-            if(editStatus) {
-                const acceptStatus = document.querySelector('.note-form__accept')
-                const currentValue = form.value;
-                if(!acceptStatus) {
-                    const element = document.createElement('div');
-                    element.classList.add('note-form__accept');
-                    element.innerHTML = `
-                    <button class="note-form__submit-btn">Сохранить</button>
-                    <button class="note-form__cancel-btn">Отменить</button>
-                    `;
-                    noteForm.insertBefore(element, resetBtn);   
-                    form.addEventListener('change', (e) => {
-                        localStorage.setItem(item.id, form.value);
-                    });
-                    const acceptBtn = document.querySelector('.note-form__submit-btn');
-                    acceptBtn.addEventListener('click', editSubmitButtonListener); 
-                } 
-                    const cancelBtn = document.querySelector('.note-form__cancel-btn');
-                    const submitBtn = document.querySelector('.note-form__submit-btn');
-                    cancelBtn.addEventListener('click', () => {
-                        localStorage.setItem(item.id, currentValue);
-                        editSubmitButtonListener();
-                    });    
-            } 
+            form.value = e.target.innerText.replace(/Удалить$/g, '');
+            const currentValue = form.value;
+            const acceptBlock = document.querySelector('.note-form__accept');
+            !acceptBlock ? appendAcceptBlock() : alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.');
+            form.addEventListener('change', (e) => {
+                localStorage.setItem(item.id, form.value);
+            });
+            checkSelectOfAcceptBlock(item.id, currentValue);
             }
         });
     });
 }
 
-        //Доделать функцию 
+
+function appendAcceptBlock() {
+    button.classList.add('edit');
+            const element = document.createElement('div');
+            element.classList.add('note-form__accept');
+            element.innerHTML = `
+            <button class="note-form__submit-btn">Сохранить</button>
+            <button class="note-form__cancel-btn">Отменить</button>
+            `;
+            noteForm.insertBefore(element, resetBtn);  
+}
+
+
+function checkSelectOfAcceptBlock(key, value) {
+    const acceptBtn = document.querySelector('.note-form__submit-btn');
+    acceptBtn.addEventListener('click', resetAcceptBlock); 
+    const cancelBtn = document.querySelector('.note-form__cancel-btn');
+    cancelBtn.addEventListener('click', () => {
+        localStorage.setItem(key, value);
+        resetAcceptBlock();
+    }); 
+}
+
+
+function resetAcceptBlock() {
+    const acceptStatus = document.querySelector('.note-form__accept');
+    acceptStatus.remove();
+    form.value = '';
+    button.classList.remove('edit');
+    button.innerHTML = 'Отправить';
+    location.reload();
+} 
+
 
 function deleteMessage() {
     const elements = document.querySelectorAll('.save-list__item');
     const keys = Object.keys(localStorage);
-
-    // const attributesOfDelete = document.querySelectorAll('[data="delete-message"]');
 
     elements.forEach(listItem => {
         listItem.addEventListener('click', (e) => {
@@ -151,16 +143,6 @@ function deleteMessage() {
         });
     });
 }
-
-
-function editSubmitButtonListener() {
-    const acceptStatus = document.querySelector('.note-form__accept');
-    acceptStatus.remove();
-        form.value = '';
-        button.classList.remove('edit');
-        button.innerHTML = 'Отправить';
-        location.reload();
-} 
 
 
 function sortOfMessage() {
