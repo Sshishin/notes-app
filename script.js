@@ -57,7 +57,7 @@ function appendMessage(elem) {
                 <button data="delete-message">Удалить</button>
             </div>
         `;
-        storageList.append(element);
+        storageList.prepend(element);
         
         form.value = ''; 
         editMessage();
@@ -77,13 +77,14 @@ function editMessage() {
                         top: top.offsetTop,
                         behavior: 'smooth' 
                     });
-                
+
             console.log('Повтор')       //Вызывается 3 раза при добавлении нескольких сообщений сразу
             form.value = e.target.innerText.replace(/Удалить$/g, '').trim();
             const currentValue = form.value;
             const acceptBlock = document.querySelector('.note-form__accept');
             !acceptBlock ? appendAcceptBlock() : alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.');
             form.addEventListener('change', (e) => {
+                // localStorage[item.id] = currentCount()
                 localStorage.setItem(item.id, form.value);
             });
             checkSelectOfAcceptBlock(item.id, currentValue);
@@ -98,7 +99,7 @@ function appendAcceptBlock() {
     const element = document.createElement('div');
     element.classList.add('note-form__accept');
     element.innerHTML = `
-        <button class="note-form__submit-btn">Сохранить</button>
+        <button type="submit" class="note-form__submit-btn">Сохранить</button>
         <button class="note-form__cancel-btn">Отменить</button>
         `;
     noteForm.insertBefore(element, resetBtn);  
@@ -107,8 +108,19 @@ function appendAcceptBlock() {
 
 function checkSelectOfAcceptBlock(key, value) {
     const acceptBtn = document.querySelector('.note-form__submit-btn');
-    acceptBtn.addEventListener('click', resetAcceptBlock); 
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
+
+    form.onkeydown = (e) => {
+        
+        if(e.keyCode === 13) {
+            e.preventDefault();
+            form.blur();
+            resetAcceptBlock();
+            
+        }
+    };
+    
+    acceptBtn.addEventListener('click', resetAcceptBlock); 
     cancelBtn.addEventListener('click', () => {
         localStorage.setItem(key, value);
         resetAcceptBlock();
@@ -150,7 +162,7 @@ function sortOfMessage() {
     const keys = Object.keys(localStorage);
 
     keys.sort((a,b) => {
-        return a - b;
+        return b - a;
     });
 
     for(let key of keys) {
