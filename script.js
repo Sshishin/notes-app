@@ -71,15 +71,15 @@ function editMessage() {
     elements.forEach(item => {
         item.addEventListener('click', (e) => {
             if(e.target.innerText !== 'Удалить') {
+                form.focus({preventScroll: true});
                 const top = document.querySelector('body');
-                setTimeout (() => {
                     window.scrollTo({
                         top: top.offsetTop,
                         behavior: 'smooth' 
                     });
-                }, 0);
-        
-            form.value = e.target.innerText.replace(/Удалить$/g, '');
+                
+            console.log('Повтор')       //Вызывается 3 раза при добавлении нескольких сообщений сразу
+            form.value = e.target.innerText.replace(/Удалить$/g, '').trim();
             const currentValue = form.value;
             const acceptBlock = document.querySelector('.note-form__accept');
             !acceptBlock ? appendAcceptBlock() : alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.');
@@ -95,13 +95,13 @@ function editMessage() {
 
 function appendAcceptBlock() {
     button.classList.add('edit');
-            const element = document.createElement('div');
-            element.classList.add('note-form__accept');
-            element.innerHTML = `
-            <button class="note-form__submit-btn">Сохранить</button>
-            <button class="note-form__cancel-btn">Отменить</button>
-            `;
-            noteForm.insertBefore(element, resetBtn);  
+    const element = document.createElement('div');
+    element.classList.add('note-form__accept');
+    element.innerHTML = `
+        <button class="note-form__submit-btn">Сохранить</button>
+        <button class="note-form__cancel-btn">Отменить</button>
+        `;
+    noteForm.insertBefore(element, resetBtn);  
 }
 
 
