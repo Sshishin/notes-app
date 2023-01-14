@@ -41,8 +41,8 @@ function saveMessage() {
 
 function submitMessage() {
     const message = form.value;
-        localStorage.setItem(counter, message);
-        appendMessage(message);
+    localStorage.setItem(counter, message);
+    appendMessage(message);
 }
 
 
@@ -60,38 +60,59 @@ function appendMessage(elem) {
         storageList.prepend(element);
         
         form.value = ''; 
+        console.log('Инициатор')
         editMessage();
         deleteMessage(); 
 }
 
-
 function editMessage() {
     const elements = document.querySelectorAll('.save-list__item');
-
+    console.log('Вызов функции');
     elements.forEach(item => {
-        item.addEventListener('click', (e) => {
-            if(e.target.innerText !== 'Удалить') {
-                form.focus({preventScroll: true});
-                const top = document.querySelector('body');
-                    window.scrollTo({
-                        top: top.offsetTop,
-                        behavior: 'smooth' 
-                    });
-
-            console.log('Повтор')       //Вызывается 3 раза при добавлении нескольких сообщений сразу
-            form.value = e.target.innerText.replace(/Удалить$/g, '').trim();
-            const currentValue = form.value;
-            const acceptBlock = document.querySelector('.note-form__accept');
-            !acceptBlock ? appendAcceptBlock() : alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.');
-            form.addEventListener('change', (e) => {
-                // localStorage[item.id] = currentCount()
-                localStorage.setItem(item.id, form.value);
-            });
-            checkSelectOfAcceptBlock(item.id, currentValue);
-            }
-        });
+        item.addEventListener('click', list );
+            
+            // form.addEventListener('change', (e) => {
+            //     localStorage.setItem(item.id, form.value);
+            // });
+       
     });
 }
+
+function list() {
+    console.log('Повтор');      //Рабочая история
+    // form.addEventListener('change', (e) => {
+            //     localStorage.setItem(item.id, form.value);
+            // });
+}
+
+
+// function editMessage() {
+//     const elements = document.querySelectorAll('.save-list__item');
+
+//     elements.forEach(item => {
+//         item.addEventListener('click', (e) => {
+//             if(e.target.innerText !== 'Удалить') {
+//                 form.focus({preventScroll: true});
+//                 const top = document.querySelector('body');
+//                     window.scrollTo({
+//                         top: top.offsetTop,
+//                         behavior: 'smooth' 
+//                     });
+
+//             console.log('Повтор')       //Вызывается 3 раза при добавлении нескольких сообщений сразу
+//             form.value = e.target.innerText.replace(/Удалить$/g, '').trim();
+//             const currentValue = form.value;
+//             const acceptBlock = document.querySelector('.note-form__accept');
+//             !acceptBlock ? appendAcceptBlock() : // alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.');
+//             form.addEventListener('change', (e) => {
+//                 // localStorage[item.id] = 10
+//                 localStorage.setItem(item.id, form.value);
+//             });
+//             checkSelectOfAcceptBlock(item.id, currentValue);
+//             }
+//         });
+//     });
+// }
 
 
 function appendAcceptBlock() {
@@ -120,7 +141,7 @@ function checkSelectOfAcceptBlock(key, value) {
         }
     };
     
-    acceptBtn.addEventListener('click', resetAcceptBlock); 
+    // acceptBtn.addEventListener('click', resetAcceptBlock); 
     cancelBtn.addEventListener('click', () => {
         localStorage.setItem(key, value);
         resetAcceptBlock();
