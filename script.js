@@ -1,3 +1,14 @@
+//Возможные варианты решений
+
+// 1. Ссылка в объекте события на другую функцию var.addEventListener('click', anotherFunc)
+// 2. const EventHandlerOld = function( param ){
+//     return function( event ){
+//         // Есть доступ и к обьекту event и к param
+//         // Do Smsng
+//       }
+//   }
+//   btn.addEventListener('click', EventHandlerOld( true ) );
+
 
 'use strict';
 
@@ -8,6 +19,7 @@ const storageList = document.querySelector('.save-list'),
       noteForm = document.querySelector('.note-form');
 
 let counter;
+
 
 if(localStorage.length < 1) {
     counter = 0;
@@ -68,15 +80,19 @@ function appendMessage(elem) {
 function editMessage() {
     const elements = document.querySelectorAll('.save-list__item');
     console.log('Вызов функции');
+   
     elements.forEach(item => {
-        item.addEventListener('click', list );
+        item.addEventListener('click', () => list() );
             
             // form.addEventListener('change', (e) => {
             //     localStorage.setItem(item.id, form.value);
             // });
        
     });
+   
 }
+
+// Обработчик событий вешается несколько раз
 
 function list() {
     console.log('Повтор');      //Рабочая история
