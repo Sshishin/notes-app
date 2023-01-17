@@ -1,14 +1,4 @@
-//Возможные варианты решений
-
-// 1. Ссылка в объекте события на другую функцию var.addEventListener('click', anotherFunc)
-// 2. const EventHandlerOld = function( param ){
-//     return function( event ){
-//         // Есть доступ и к обьекту event и к param
-//         // Do Smsng
-//       }
-//   }
-//   btn.addEventListener('click', EventHandlerOld( true ) );
-
+// Переименовать все функции и переменные в соттветсвтии с нормами
 
 'use strict';
 
@@ -80,9 +70,10 @@ function editMessage() {
     const elements = document.querySelectorAll('.save-list__item');   
     elements.forEach(item => {
         item.addEventListener('click', list);
+
     });
-   
 }
+
 
 
 function list(event) {
@@ -96,13 +87,32 @@ function list(event) {
                         
     form.value = this.innerText.replace(/Удалить$/g, '').trim();
     const currentValue = form.value;
+    const currentKey = this.id;
+    const obj = {}
+    obj.key = currentKey
+    obj.value = currentValue
+    console.log(obj)
+    
     const acceptBlock = document.querySelector('.note-form__accept');
-    !acceptBlock ? appendAcceptBlock() : alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.')
-    form.addEventListener('change', (e) => {
-        localStorage.setItem(this.id, form.value);
-    });
-    const acceptBtn = document.querySelector('.note-form__submit-btn');
-    checkSelectOfAcceptBlock(this.id, currentValue);
+    // !acceptBlock ? appendAcceptBlock() : lost()//alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.')
+    if(!acceptBlock) {
+        appendAcceptBlock();
+        form.addEventListener('change', (e) => {
+            localStorage.setItem(this.id, form.value);
+        });
+    } else {
+        alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.')
+        form.value = 'xxxxx'
+        form.addEventListener('change', (e) => {
+            localStorage.setItem(7, '22222222');
+        });
+    }
+    // form.addEventListener('change', (e) => {
+    //     localStorage.setItem(this.id, form.value);
+    // });
+
+    // const acceptBtn = document.querySelector('.note-form__submit-btn');
+    // checkSelectOfAcceptBlock(this.id, currentValue);
 }
 }
 
