@@ -9,7 +9,7 @@ const storageList = document.querySelector('.save-list'),
       noteForm = document.querySelector('.note-form');
 
 let counter;
-
+const arr = []
 
 if(localStorage.length < 1) {
     counter = 0;
@@ -88,10 +88,9 @@ function list(event) {
     form.value = this.innerText.replace(/Удалить$/g, '').trim();
     const currentValue = form.value;
     const currentKey = this.id;
-    const obj = {}
-    obj.key = currentKey
-    obj.value = currentValue
-    console.log(obj)
+    
+    arr.push(currentKey, currentValue)
+    console.log(arr)
     
     const acceptBlock = document.querySelector('.note-form__accept');
     // !acceptBlock ? appendAcceptBlock() : lost()//alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.')
@@ -100,19 +99,33 @@ function list(event) {
         form.addEventListener('change', (e) => {
             localStorage.setItem(this.id, form.value);
         });
-    } else {
-        alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.')
-        form.value = 'xxxxx'
-        form.addEventListener('change', (e) => {
-            localStorage.setItem(7, '22222222');
-        });
-    }
-    // form.addEventListener('change', (e) => {
-    //     localStorage.setItem(this.id, form.value);
-    // });
+    // } else {
+    //     const answer = confirm('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nСохранить изменения?')
+    //     form.value = arr[1]
+    //     form.addEventListener('change', (e) => {
+    //         localStorage.setItem(arr[0], form.value);
+    //     });
 
-    // const acceptBtn = document.querySelector('.note-form__submit-btn');
-    // checkSelectOfAcceptBlock(this.id, currentValue);
+    //     if(form.value == arr[1]) {
+    //         console.log('Без изменений')
+    //         const acceptStatus = document.querySelector('.note-form__accept');
+    // acceptStatus.remove();
+    // button.classList.remove('edit');
+    // form.value = ''
+    // ++counter
+            
+    //     } else {
+    //         form.value = arr[1]
+    //         form.addEventListener('change', (e) => {
+    //             localStorage.setItem(arr[0], form.value);
+    //             console.log('Изменено')
+    //         });
+    //     }
+        
+    // }
+    
+    const acceptBtn = document.querySelector('.note-form__submit-btn');
+    checkSelectOfAcceptBlock(this.id, currentValue);
 }
 }
 
