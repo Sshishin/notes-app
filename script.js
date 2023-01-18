@@ -1,4 +1,5 @@
 // Переименовать все функции и переменные в соттветсвтии с нормами
+// Проработать логику работы с заметками при редактировании
 
 'use strict';
 
@@ -62,21 +63,21 @@ function appendMessage(elem) {
         storageList.prepend(element);
         
         form.value = ''; 
-        editMessage();
+        callEdit();
         deleteMessage(); 
 }
 
-function editMessage() {
+function callEdit() {
     const elements = document.querySelectorAll('.save-list__item');   
     elements.forEach(item => {
-        item.addEventListener('click', list);
+        item.addEventListener('click', editMessage);
 
     });
 }
 
 
 
-function list(event) {
+function editMessage(event) {
     if(event.target.innerText !== 'Удалить') {
         form.focus({preventScroll: true});
             const top = document.querySelector('body');
@@ -93,38 +94,26 @@ function list(event) {
     console.log(arr)
     
     const acceptBlock = document.querySelector('.note-form__accept');
-    // !acceptBlock ? appendAcceptBlock() : lost()//alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nВсе изменения были сохранены автоматически.')
+    let was = 0;
+
     if(!acceptBlock) {
         appendAcceptBlock();
         form.addEventListener('change', (e) => {
+            was = was + 1;
+            console.log(was)
             localStorage.setItem(this.id, form.value);
         });
-    // } else {
-    //     const answer = confirm('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nСохранить изменения?')
-    //     form.value = arr[1]
-    //     form.addEventListener('change', (e) => {
-    //         localStorage.setItem(arr[0], form.value);
-    //     });
-
-    //     if(form.value == arr[1]) {
-    //         console.log('Без изменений')
-    //         const acceptStatus = document.querySelector('.note-form__accept');
-    // acceptStatus.remove();
-    // button.classList.remove('edit');
-    // form.value = ''
-    // ++counter
-            
-    //     } else {
-    //         form.value = arr[1]
-    //         form.addEventListener('change', (e) => {
-    //             localStorage.setItem(arr[0], form.value);
-    //             console.log('Изменено')
-    //         });
-    //     }
+    } else {
+        console.log(was)
+        alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nСохраните заметку или отмените редактирование.')
+        form.value = arr[1]
         
-    // }
+        form.addEventListener('change', (e) => {
+            localStorage.setItem(arr[0], form.value);
+        });
+        
+    }
     
-    const acceptBtn = document.querySelector('.note-form__submit-btn');
     checkSelectOfAcceptBlock(this.id, currentValue);
 }
 }
@@ -231,7 +220,7 @@ function clearStorage() {
 
 saveMessage();
 sortOfMessage();
-editMessage();
+callEdit();
 deleteMessage();
 clearStorage();
 
