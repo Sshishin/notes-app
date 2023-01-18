@@ -93,31 +93,37 @@ function editMessage(event) {
     arr.push(currentKey, currentValue)
     console.log(arr)
     
-    const acceptBlock = document.querySelector('.note-form__accept');
-    let was = 0;
-
-    if(!acceptBlock) {
-        appendAcceptBlock();
-        form.addEventListener('change', (e) => {
-            was = was + 1;
-            console.log(was)
-            localStorage.setItem(this.id, form.value);
-        });
-    } else {
-        console.log(was)
-        alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nСохраните заметку или отмените редактирование.')
-        form.value = arr[1]
-        
-        form.addEventListener('change', (e) => {
-            localStorage.setItem(arr[0], form.value);
-        });
-        
-    }
     
-    checkSelectOfAcceptBlock(this.id, currentValue);
+    const acceptBlock = document.querySelector('.note-form__accept');
+            appendAcceptBlock();
+
+    form.addEventListener('change', t
+        
+        
+    );
+    // if(!acceptBlock) {
+    //     appendAcceptBlock();
+    //     form.addEventListener('change', (e) => {
+    //         localStorage.setItem(this.id, form.value);
+    //     });
+    // } else {
+    //     alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nСохраните заметку или отмените редактирование.')
+    //     form.value = arr[1]
+    //     form.addEventListener('change', (e) => {
+    //         localStorage.setItem(arr[0], form.value);
+    //     });
+        
+    // }
+    
+    // checkSelectOfAcceptBlock(this.id, currentValue);
 }
 }
 
+function t(e) {
+    console.log(this)
+    console.log(this.id)
+        localStorage.setItem(this.id, form.value);
+}
 
 function appendAcceptBlock() {
     button.classList.add('edit');
