@@ -1,5 +1,4 @@
-// Переименовать все функции и переменные в соттветсвтии с нормами
-// Проработать логику работы с заметками при редактировании
+// Понять как передать текущий item в функцию обработчика или как сделать так чтобы не вешалось несколько обработчиков
 
 'use strict';
 
@@ -97,32 +96,18 @@ function editMessage(event) {
     const acceptBlock = document.querySelector('.note-form__accept');
             appendAcceptBlock();
 
-    form.addEventListener('change', t
-        
-        
-    );
-    // if(!acceptBlock) {
-    //     appendAcceptBlock();
-    //     form.addEventListener('change', (e) => {
-    //         localStorage.setItem(this.id, form.value);
-    //     });
-    // } else {
-    //     alert('Вы переключились на другую заметку, не завершив редактирование предыдущей.\n\nСохраните заметку или отмените редактирование.')
-    //     form.value = arr[1]
-    //     form.addEventListener('change', (e) => {
-    //         localStorage.setItem(arr[0], form.value);
-    //     });
-        
-    // }
+    form.addEventListener('change', t(this.id));
     
-    // checkSelectOfAcceptBlock(this.id, currentValue);
+    checkSelectOfAcceptBlock(this.id, currentValue);
 }
 }
 
-function t(e) {
-    console.log(this)
-    console.log(this.id)
-        localStorage.setItem(this.id, form.value);
+// const some = 'Data'
+
+function t(key) {
+    console.log(key)//.bind(editMessage)
+    // console.log(this.id)
+        localStorage.setItem(key, form.value);
 }
 
 function appendAcceptBlock() {
