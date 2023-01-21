@@ -94,9 +94,11 @@ function editMessage(event) {
     
     
     const acceptBlock = document.querySelector('.note-form__accept');
-            appendAcceptBlock();
+            if(!acceptBlock) {
+                appendAcceptBlock();}
 
-    form.addEventListener('change', t(this.id));
+    form.addEventListener('click', t);
+    // this.addEventListener
     
     checkSelectOfAcceptBlock(this.id, currentValue);
 }
@@ -104,11 +106,51 @@ function editMessage(event) {
 
 // const some = 'Data'
 
-function t(key) {
-    console.log(key)//.bind(editMessage)
-    // console.log(this.id)
-        localStorage.setItem(key, form.value);
+function t(e) {
+    let newItem
+    // form.value = this.innerText.replace(/Удалить$/g, '').trim();
+    const elements = document.querySelectorAll('.save-list__item'); 
+    
+    elements.forEach(item => {
+        
+        const str = item.innerText.replace(/Удалить$/g, '').trim()
+        // console.log(str)
+        // console.log(e.target.value)
+        if(str == e.target.value) {
+        //     console.log(item.id)
+        //     console.log(str)
+        // console.log(e.target.value)
+        // console.log(form.value)
+            newItem = item.id
+            // console.log('tttttt')
+        }
+
+    });
+    console.log(newItem)
+    // console.log(form.value)
+    localStorage.setItem(newItem, form.value);
+    // localStorage.setItem(e, form.value);
 }
+
+// function callEdit() {
+//     const prnt = document.querySelector('.save-list');
+//     prnt.addEventListener('click', edit)
+// }
+
+// function edit(e) {
+//     const note = document.querySelector('.message-block')
+
+//     if(e.target.className == 'message-block' || e.target.className == 'save-list__item') {
+//         form.value = e.target.innerText
+//         // console.log(e.target.innerText)
+//         form.addEventListener('input', input)
+//     }
+    
+// }
+
+// function input(e) {
+//     console.log(e.target.value)
+// }
 
 function appendAcceptBlock() {
     button.classList.add('edit');
