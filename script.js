@@ -62,94 +62,128 @@ function appendMessage(elem) {
         storageList.prepend(element);
         
         form.value = ''; 
-        callEdit();
+        // callEdit();
         deleteMessage(); 
 }
 
-function callEdit() {
-    const elements = document.querySelectorAll('.save-list__item');   
-    elements.forEach(item => {
-        item.addEventListener('click', editMessage);
+// function callEdit() {
+//     const elements = document.querySelectorAll('.save-list__item');   
+//     elements.forEach(item => {
+//         item.addEventListener('click', editMessage);
 
-    });
-}
+//     });
+// }
 
 
 
-function editMessage(event) {
-    if(event.target.innerText !== 'Удалить') {
-        form.focus({preventScroll: true});
-            const top = document.querySelector('body');
-            window.scrollTo({
-                top: top.offsetTop,
-                behavior: 'smooth' 
-            });
+// function editMessage(event) {
+//     if(event.target.innerText !== 'Удалить') {
+//         form.focus({preventScroll: true});
+//             const top = document.querySelector('body');
+//             window.scrollTo({
+//                 top: top.offsetTop,
+//                 behavior: 'smooth' 
+//             });
                         
-    form.value = this.innerText.replace(/Удалить$/g, '').trim();
-    const currentValue = form.value;
-    const currentKey = this.id;
+//     form.value = this.innerText.replace(/Удалить$/g, '').trim();
+//     const currentValue = form.value;
+//     const currentKey = this.id;
     
-    arr.push(currentKey, currentValue)
-    console.log(arr)
+//     arr.push(currentKey, currentValue)
+//     console.log(arr)
     
     
-    const acceptBlock = document.querySelector('.note-form__accept');
-            if(!acceptBlock) {
-                appendAcceptBlock();}
+//     const acceptBlock = document.querySelector('.note-form__accept');
+//             if(!acceptBlock) {
+//                 appendAcceptBlock();}
 
-    form.addEventListener('click', t);
-    // this.addEventListener
+//     form.addEventListener('click', t);
+//     // this.addEventListener
     
-    checkSelectOfAcceptBlock(this.id, currentValue);
-}
-}
+//     checkSelectOfAcceptBlock(this.id, currentValue);
+// }
+// }
 
 // const some = 'Data'
 
-function t(e) {
-    let newItem
-    // form.value = this.innerText.replace(/Удалить$/g, '').trim();
-    const elements = document.querySelectorAll('.save-list__item'); 
+// function t(e) {
+//     let newItem
+//     // form.value = this.innerText.replace(/Удалить$/g, '').trim();
+//     const elements = document.querySelectorAll('.save-list__item'); 
     
-    elements.forEach(item => {
+//     elements.forEach(item => {
         
-        const str = item.innerText.replace(/Удалить$/g, '').trim()
-        // console.log(str)
-        // console.log(e.target.value)
-        if(str == e.target.value) {
-        //     console.log(item.id)
-        //     console.log(str)
-        // console.log(e.target.value)
-        // console.log(form.value)
-            newItem = item.id
-            // console.log('tttttt')
-        }
+//         const str = item.innerText.replace(/Удалить$/g, '').trim()
+//         // console.log(str)
+//         // console.log(e.target.value)
+//         if(str == e.target.value) {
+//         //     console.log(item.id)
+//         //     console.log(str)
+//         // console.log(e.target.value)
+//         // console.log(form.value)
 
+//             newItem = item.id
+//             // console.log('tttttt')    //Здесь уперся в то что при попытке изменения уже не проходит условие и ключ получается необозначенным
+//         }
+
+//     });
+//     console.log(newItem)
+//     // console.log(form.value)
+//     localStorage.setItem(newItem, form.value);
+//     // localStorage.setItem(e, form.value);
+// }
+
+storageList.onclick = editMessage;
+
+function editMessage(e) {
+  const remove = e.target.closest("[data-message]"),
+    listItem = e.target.closest(".save-list__item");
+
+    console.log(remove)
+    console.log(listItem)
+
+  if (!remove && listItem) {
+    form.focus({
+      preventScroll: true,
     });
-    console.log(newItem)
-    // console.log(form.value)
-    localStorage.setItem(newItem, form.value);
-    // localStorage.setItem(e, form.value);
+
+    // const top = document.body;
+
+    // window.scrollTo({
+    //   top: top.offsetTop,
+    //   behavior: "smooth",
+    // });
+
+    form.value = listItem.querySelector(":scope > .message-block > span").textContent.trim();
+    const currentValue = form.value;
+    const currentKey = listItem.id;
+
+    arr.push(currentKey, currentValue);
+    console.log(arr);
+
+    const acceptBlock = document.querySelector(".note-form__accept");
+    appendAcceptBlock();
+
+    // form.addEventListener("change", function t() {
+    //     console.log('some')
+    //         localStorage.setItem(currentKey, form.value);
+    // });
+
+
+    form.onchange = function t() {
+        console.log('some')
+            localStorage.setItem(currentKey, form.value);
+
+    };
+
+    checkSelectOfAcceptBlock(listItem.id, currentValue);
+  }
 }
 
-// function callEdit() {
-//     const prnt = document.querySelector('.save-list');
-//     prnt.addEventListener('click', edit)
-// }
+// function t() {
+// console.log('some')
+//     localStorage.setItem(newItem, form.value);
 
-// function edit(e) {
-//     const note = document.querySelector('.message-block')
-
-//     if(e.target.className == 'message-block' || e.target.className == 'save-list__item') {
-//         form.value = e.target.innerText
-//         // console.log(e.target.innerText)
-//         form.addEventListener('input', input)
-//     }
-    
-// }
-
-// function input(e) {
-//     console.log(e.target.value)
 // }
 
 function appendAcceptBlock() {
@@ -253,7 +287,7 @@ function clearStorage() {
 
 saveMessage();
 sortOfMessage();
-callEdit();
+// callEdit();
 deleteMessage();
 clearStorage();
 
