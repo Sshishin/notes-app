@@ -1,4 +1,4 @@
-// Понять как передать текущий item в функцию обработчика или как сделать так чтобы не вешалось несколько обработчиков
+// Разделить функцию edit
 
 'use strict';
 
@@ -9,7 +9,6 @@ const storageList = document.querySelector('.save-list'),
       noteForm = document.querySelector('.note-form');
 
 let counter;
-const arr = []
 
 if(localStorage.length < 1) {
     counter = 0;
@@ -62,76 +61,9 @@ function appendMessage(elem) {
         storageList.prepend(element);
         
         form.value = ''; 
-        // callEdit();
         deleteMessage(); 
 }
 
-// function callEdit() {
-//     const elements = document.querySelectorAll('.save-list__item');   
-//     elements.forEach(item => {
-//         item.addEventListener('click', editMessage);
-
-//     });
-// }
-
-
-
-// function editMessage(event) {
-//     if(event.target.innerText !== 'Удалить') {
-//         form.focus({preventScroll: true});
-//             const top = document.querySelector('body');
-//             window.scrollTo({
-//                 top: top.offsetTop,
-//                 behavior: 'smooth' 
-//             });
-                        
-//     form.value = this.innerText.replace(/Удалить$/g, '').trim();
-//     const currentValue = form.value;
-//     const currentKey = this.id;
-    
-//     arr.push(currentKey, currentValue)
-//     console.log(arr)
-    
-    
-//     const acceptBlock = document.querySelector('.note-form__accept');
-//             if(!acceptBlock) {
-//                 appendAcceptBlock();}
-
-//     form.addEventListener('click', t);
-//     // this.addEventListener
-    
-//     checkSelectOfAcceptBlock(this.id, currentValue);
-// }
-// }
-
-// const some = 'Data'
-
-// function t(e) {
-//     let newItem
-//     // form.value = this.innerText.replace(/Удалить$/g, '').trim();
-//     const elements = document.querySelectorAll('.save-list__item'); 
-    
-//     elements.forEach(item => {
-        
-//         const str = item.innerText.replace(/Удалить$/g, '').trim()
-//         // console.log(str)
-//         // console.log(e.target.value)
-//         if(str == e.target.value) {
-//         //     console.log(item.id)
-//         //     console.log(str)
-//         // console.log(e.target.value)
-//         // console.log(form.value)
-
-//             newItem = item.id
-//             // console.log('tttttt')    //Здесь уперся в то что при попытке изменения уже не проходит условие и ключ получается необозначенным
-//         }
-
-//     });
-//     console.log(newItem)
-//     // console.log(form.value)
-//     localStorage.setItem(newItem, form.value);
-//     // localStorage.setItem(e, form.value);
-// }
 
 storageList.onclick = editMessage;
 
@@ -139,52 +71,46 @@ function editMessage(e) {
   const remove = e.target.closest("[data-message]"),
     listItem = e.target.closest(".save-list__item");
 
-    console.log(remove)
-    console.log(listItem)
-
   if (!remove && listItem) {
     form.focus({
       preventScroll: true,
     });
 
-    // const top = document.body;
-
-    // window.scrollTo({
-    //   top: top.offsetTop,
-    //   behavior: "smooth",
-    // });
-
     form.value = listItem.querySelector(":scope > .message-block > span").textContent.trim();
     const currentValue = form.value;
     const currentKey = listItem.id;
-
-    arr.push(currentKey, currentValue);
-    console.log(arr);
-
     const acceptBlock = document.querySelector(".note-form__accept");
-    appendAcceptBlock();
 
-    // form.addEventListener("change", function t() {
-    //     console.log('some')
-    //         localStorage.setItem(currentKey, form.value);
-    // });
+    if(!acceptBlock) {
+        appendAcceptBlock();
+    }
+    
+    const acceptBtn = document.querySelector('.note-form__submit-btn');
+    const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
-
-    form.onchange = function t() {
-        console.log('some')
-            localStorage.setItem(currentKey, form.value);
-
+    acceptBtn.onclick = () => {
+            localStorage.setItem(currentKey, currentValue);
+            resetAcceptBlock();
     };
 
-    checkSelectOfAcceptBlock(listItem.id, currentValue);
+    cancelBtn.onclick = () => {
+        resetAcceptBlock();
+    };
+
+    form.onkeydown = (e) => {
+        
+        if(e.keyCode === 13) {
+            e.preventDefault();
+            localStorage.setItem(currentKey, form.value);
+            resetAcceptBlock();
+            
+        }
+    };
+
+    // checkSelectOfAcceptBlock(listItem.id, currentValue);
   }
 }
 
-// function t() {
-// console.log('some')
-//     localStorage.setItem(newItem, form.value);
-
-// }
 
 function appendAcceptBlock() {
     button.classList.add('edit');
@@ -198,26 +124,26 @@ function appendAcceptBlock() {
 }
 
 
-function checkSelectOfAcceptBlock(key, value) {
-    const acceptBtn = document.querySelector('.note-form__submit-btn');
-    const cancelBtn = document.querySelector('.note-form__cancel-btn');
+// function checkSelectOfAcceptBlock(key, value) {
+//     const acceptBtn = document.querySelector('.note-form__submit-btn');
+//     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
-    form.onkeydown = (e) => {
+//     // form.onkeydown = (e) => {
         
-        if(e.keyCode === 13) {
-            e.preventDefault();
-            form.blur();
-            resetAcceptBlock();
+//     //     if(e.keyCode === 13) {
+//     //         e.preventDefault();
+//     //         form.blur();
+//     //         resetAcceptBlock();
             
-        }
-    };
+//     //     }
+//     // };
     
-    acceptBtn.addEventListener('click', resetAcceptBlock); 
-    cancelBtn.addEventListener('click', () => {
-        localStorage.setItem(key, value);
-        resetAcceptBlock();
-    }); 
-}
+//     // acceptBtn.addEventListener('click', resetAcceptBlock); 
+//     // cancelBtn.addEventListener('click', () => {
+//     //     localStorage.setItem(key, value);
+//     //     resetAcceptBlock();
+//     // }); 
+// }
 
 
 function resetAcceptBlock() {
@@ -287,7 +213,6 @@ function clearStorage() {
 
 saveMessage();
 sortOfMessage();
-// callEdit();
 deleteMessage();
 clearStorage();
 
