@@ -84,7 +84,7 @@ function editMessage(e) {
     if(!acceptBlock) {
         appendAcceptBlock();
     }
-    
+
     const acceptBtn = document.querySelector('.note-form__submit-btn');
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
@@ -106,8 +106,6 @@ function editMessage(e) {
             
         }
     };
-
-    // checkSelectOfAcceptBlock(listItem.id, currentValue);
   }
 }
 
@@ -122,28 +120,6 @@ function appendAcceptBlock() {
         `;
     noteForm.insertBefore(element, resetBtn);  
 }
-
-
-// function checkSelectOfAcceptBlock(key, value) {
-//     const acceptBtn = document.querySelector('.note-form__submit-btn');
-//     const cancelBtn = document.querySelector('.note-form__cancel-btn');
-
-//     // form.onkeydown = (e) => {
-        
-//     //     if(e.keyCode === 13) {
-//     //         e.preventDefault();
-//     //         form.blur();
-//     //         resetAcceptBlock();
-            
-//     //     }
-//     // };
-    
-//     // acceptBtn.addEventListener('click', resetAcceptBlock); 
-//     // cancelBtn.addEventListener('click', () => {
-//     //     localStorage.setItem(key, value);
-//     //     resetAcceptBlock();
-//     // }); 
-// }
 
 
 function resetAcceptBlock() {
