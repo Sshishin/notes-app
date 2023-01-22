@@ -1,4 +1,4 @@
-// Разделить функцию edit
+
 
 'use strict';
 
@@ -49,13 +49,13 @@ function submitMessage() {
 
 function appendMessage(elem) {
     const element = document.createElement('div');
-        element.classList.add('save-list__item');
-        element.id = counter++;
-        element.innerHTML = `
+          element.classList.add('save-list__item');
+          element.id = counter++;
+          element.innerHTML = `
 
             <div class="message-block">
                 <span>${elem}</span>
-                <button data="delete-message">Удалить</button>
+                <button class="remove-msg" data="message">Удалить</button>
             </div>
         `;
         storageList.prepend(element);
@@ -68,13 +68,22 @@ function appendMessage(elem) {
 storageList.onclick = editMessage;
 
 function editMessage(e) {
-  const remove = e.target.closest("[data-message]"),
-    listItem = e.target.closest(".save-list__item");
+  const remove = e.target.closest(".remove-msg"),
+        listItem = e.target.closest(".save-list__item"),
+        top = document.body;
+
 
   if (!remove && listItem) {
+
     form.focus({
       preventScroll: true,
     });
+
+    window.scrollTo({
+          top: top.offsetTop,
+          behavior: "smooth",
+        });
+    
 
     form.value = listItem.querySelector(":scope > .message-block > span").textContent.trim();
     const currentValue = form.value;
@@ -89,7 +98,7 @@ function editMessage(e) {
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
     acceptBtn.onclick = () => {
-            localStorage.setItem(currentKey, currentValue);
+            localStorage.setItem(currentKey, form.value);
             resetAcceptBlock();
     };
 
@@ -167,7 +176,7 @@ function sortOfMessage() {
         element.innerHTML = `
         <div class="message-block">
             <span>${message}</span>
-            <button data="delete-message">Удалить</button>
+            <button class="remove-msg" data="delete-message">Удалить</button>
         </div>
         `;
 
