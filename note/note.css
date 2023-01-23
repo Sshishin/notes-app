@@ -91,4 +91,23 @@
 .message-block {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
+
+.message-block__text {
+    word-wrap: break-word;
+    max-width: 360px;
+}
+
+.message-block__remove {
+    width: 35px;
+    height: 35px;
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    color: transparent;
+    padding: 0px;
+    background-image: url(../img/cancel.png);
+    background-size: contain;
+}
+

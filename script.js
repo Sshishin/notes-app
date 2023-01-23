@@ -54,8 +54,8 @@ function appendMessage(elem) {
           element.innerHTML = `
 
             <div class="message-block">
-                <span>${elem}</span>
-                <button class="remove-msg" data="message">Удалить</button>
+                <span class="message-block__text">${elem}</span>
+                <button class="message-block__remove">Удалить</button>
             </div>
         `;
         storageList.prepend(element);
@@ -68,7 +68,7 @@ function appendMessage(elem) {
 storageList.onclick = editMessage;
 
 function editMessage(e) {
-  const remove = e.target.closest(".remove-msg"),
+  const remove = e.target.closest(".message-block__remove"),
         listItem = e.target.closest(".save-list__item"),
         top = document.body;
 
@@ -174,8 +174,8 @@ function sortOfMessage() {
         element.id = key;
         element.innerHTML = `
         <div class="message-block">
-            <span>${message}</span>
-            <button class="remove-msg" data="delete-message">Удалить</button>
+            <span class="message-block__text">${message}</span>
+            <button class="message-block__remove">Удалить</button>
         </div>
         `;
 
