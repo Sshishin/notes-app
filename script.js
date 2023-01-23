@@ -72,19 +72,15 @@ function editMessage(e) {
         listItem = e.target.closest(".save-list__item"),
         top = document.body;
 
-
   if (!remove && listItem) {
-
     form.focus({
-      preventScroll: true,
+        preventScroll: true,
     });
-
     window.scrollTo({
-          top: top.offsetTop,
-          behavior: "smooth",
+        top: top.offsetTop,
+        behavior: "smooth",
         });
     
-
     form.value = listItem.querySelector(":scope > .message-block > span").textContent.trim();
     const currentValue = form.value;
     const currentKey = listItem.id;
@@ -94,12 +90,18 @@ function editMessage(e) {
         appendAcceptBlock();
     }
 
+    saveEditMessage(currentKey);
+  }
+}
+
+
+function saveEditMessage(key) {
     const acceptBtn = document.querySelector('.note-form__submit-btn');
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
     acceptBtn.onclick = () => {
-            localStorage.setItem(currentKey, form.value);
-            resetAcceptBlock();
+        localStorage.setItem(key, form.value);
+        resetAcceptBlock();
     };
 
     cancelBtn.onclick = () => {
@@ -107,15 +109,12 @@ function editMessage(e) {
     };
 
     form.onkeydown = (e) => {
-        
         if(e.keyCode === 13) {
             e.preventDefault();
-            localStorage.setItem(currentKey, form.value);
-            resetAcceptBlock();
-            
+            localStorage.setItem(key, form.value);
+            resetAcceptBlock();  
         }
     };
-  }
 }
 
 
