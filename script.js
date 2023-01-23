@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 const storageList = document.querySelector('.save-list'),
