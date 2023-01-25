@@ -88,17 +88,18 @@ function editMessage(e) {
         appendAcceptBlock();
     }
 
-    saveEditMessage(currentKey);
+    saveEditMessage(currentKey, currentValue);
   }
 }
 
 
-function saveEditMessage(key) {
+function saveEditMessage(key, value) {
     const acceptBtn = document.querySelector('.note-form__submit-btn');
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
     acceptBtn.onclick = () => {
-        localStorage.setItem(key, form.value);
+        localStorage.removeItem(key, value);
+        localStorage.setItem(currentCount(), form.value)
         resetAcceptBlock();
     };
 
@@ -109,7 +110,8 @@ function saveEditMessage(key) {
     form.onkeydown = (e) => {
         if(e.keyCode === 13) {
             e.preventDefault();
-            localStorage.setItem(key, form.value);
+            localStorage.removeItem(key, value);
+            localStorage.setItem(currentCount(), form.value)
             resetAcceptBlock();  
         }
     };
