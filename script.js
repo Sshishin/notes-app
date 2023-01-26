@@ -98,9 +98,14 @@ function saveEditMessage(key, value) {
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
     acceptBtn.onclick = () => {
-        localStorage.removeItem(key, value);
-        localStorage.setItem(currentCount(), form.value)
-        resetAcceptBlock();
+        if(value !== form.value) {
+            localStorage.removeItem(key, value);
+            localStorage.setItem(currentCount(), form.value)
+            resetAcceptBlock();
+        } else {
+            resetAcceptBlock();
+        }
+        
     };
 
     cancelBtn.onclick = () => {
@@ -108,11 +113,15 @@ function saveEditMessage(key, value) {
     };
 
     form.onkeydown = (e) => {
-        if(e.keyCode === 13) {
+        if(e.keyCode === 13 ) {
             e.preventDefault();
+            if(value !== form.value) {
             localStorage.removeItem(key, value);
             localStorage.setItem(currentCount(), form.value)
-            resetAcceptBlock();  
+            resetAcceptBlock();
+            } else {
+            resetAcceptBlock();
+            }
         }
     };
 }
