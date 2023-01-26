@@ -193,19 +193,17 @@ function sortOfMessage() {
     }
 }
 
+resetBtn.onclick = clearStorage;
+
 function clearStorage() {
-    resetBtn.addEventListener('click', () => {
-        const answer = confirm('Вы действительно хотите удалить все заметки?');
-        if(answer) {
-            localStorage.clear();
-            location.reload();
-        }
-    });
+    const answer = confirm('Вы действительно хотите удалить все заметки?');
+    if(answer) {
+        localStorage.clear();
+        location.reload();
+    }
 }
 
 
 saveMessage();
 sortOfMessage();
 deleteMessage();
-clearStorage();
-

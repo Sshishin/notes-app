@@ -2,14 +2,14 @@
 
 .save {
     margin: 0 auto;
-    width: 550px;
+    max-width: 500px;
     margin-bottom: 40px;
 }
 
 .save-list {
     padding: 30px;
     box-shadow: 0px 2px 5px 0px rgb(179, 179, 179);
-    min-height: 200px;
+    min-height: 175px;
 }
 
 .save__title {
