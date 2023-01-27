@@ -100,7 +100,7 @@ function saveEditMessage(key, value) {
     acceptBtn.onclick = () => {
         if(value !== form.value) {
             localStorage.removeItem(key, value);
-            localStorage.setItem(currentCount(), form.value)
+            localStorage.setItem(currentCount(), form.value);
             resetAcceptBlock();
         } else {
             resetAcceptBlock();
@@ -117,7 +117,7 @@ function saveEditMessage(key, value) {
             e.preventDefault();
             if(value !== form.value) {
             localStorage.removeItem(key, value);
-            localStorage.setItem(currentCount(), form.value)
+            localStorage.setItem(currentCount(), form.value);
             resetAcceptBlock();
             } else {
             resetAcceptBlock();

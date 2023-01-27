@@ -4,7 +4,7 @@
 .note {
     padding: 40px 0;
     margin: 0 auto;
-    max-width: 550px;
+    max-width: 650px;
 }
 
 .note-form {
@@ -26,6 +26,12 @@
 .note-form__input:focus {
     box-shadow: 0px 2px 5px 0px rgb(110, 110, 110);
 
+}
+
+.note-form__accept {
+    display: flex;
+    width: 100%;
+    justify-content: center;
 }
 
 .note-form__btn {
