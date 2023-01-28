@@ -4,7 +4,8 @@ const storageList = document.querySelector('.save-list'),
       button = document.querySelector('.note-form__btn'),
       form = document.querySelector('.note-form__input'),
       resetBtn = document.querySelector('.note-form__btn-reset'),
-      noteForm = document.querySelector('.note-form');
+      noteForm = document.querySelector('.note-form'),
+      nightShiftBtn = document.querySelector('.night-shift');
 
 let counter;
 
@@ -12,6 +13,24 @@ if(localStorage.length < 1) {
     counter = 0;
 } else {
     counter = currentCount();
+}
+
+
+nightShiftBtn.onclick = changeTheme;
+
+function changeTheme() {
+    const body = document.querySelector('body');
+    const headerTitle = document.querySelector('.header__title');
+    const subtitle = document.querySelector('.save__title');
+    body.classList.toggle('night-body');
+    form.classList.toggle('night-elements');
+    button.classList.toggle('night-elements');
+    resetBtn.classList.toggle('night-elements');
+    storageList.classList.toggle('night-elements');
+    headerTitle.classList.toggle('grey-text');
+    subtitle.classList.toggle('grey-text');
+    nightShiftBtn.classList.toggle('night-elements');
+
 }
 
 
@@ -103,7 +122,6 @@ function saveEditMessage(key, value, item) {
             localStorage.removeItem(key, value);
                 localStorage.setItem(currentCount(), form.value);
                 prepandMessage((currentCount() - 1), item);
-                item.remove();
                 resetAcceptBlock();
         } else {
             resetAcceptBlock();
@@ -112,6 +130,7 @@ function saveEditMessage(key, value, item) {
     };
 
     cancelBtn.onclick = () => {
+        // counter++;
         resetAcceptBlock();
     };
 
@@ -122,7 +141,6 @@ function saveEditMessage(key, value, item) {
                 localStorage.removeItem(key, value);
                 localStorage.setItem(currentCount(), form.value);
                 prepandMessage((currentCount() - 1), item);
-                item.remove();
                 resetAcceptBlock();
             } else {
                 resetAcceptBlock();
@@ -137,13 +155,16 @@ function prepandMessage(key, item) {
     const element = document.createElement('div');
     element.classList.add('save-list__item');
     element.id = key;
+    console.log(element.id)
     element.innerHTML = `
     <div class="message-block">
         <span class="message-block__text">${message}</span>
         <button class="message-block__remove">Удалить</button>
     </div>
     `;
-
+    if(item) {
+        item.remove();
+    }
     storageList.prepend(element);
 }
 
