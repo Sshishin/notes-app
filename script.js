@@ -88,20 +88,23 @@ function editMessage(e) {
         appendAcceptBlock();
     }
 
-    saveEditMessage(currentKey, currentValue);
+    saveEditMessage(currentKey, currentValue, listItem);
   }
 }
 
 
-function saveEditMessage(key, value) {
+function saveEditMessage(key, value, item) {
+    console.log(item);
     const acceptBtn = document.querySelector('.note-form__submit-btn');
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
     acceptBtn.onclick = () => {
         if(value !== form.value) {
             localStorage.removeItem(key, value);
-            localStorage.setItem(currentCount(), form.value);
-            resetAcceptBlock();
+                localStorage.setItem(currentCount(), form.value);
+                prepandMessage((currentCount() - 1), item);
+                item.remove();
+                resetAcceptBlock();
         } else {
             resetAcceptBlock();
         }
@@ -116,14 +119,32 @@ function saveEditMessage(key, value) {
         if(e.keyCode === 13 ) {
             e.preventDefault();
             if(value !== form.value) {
-            localStorage.removeItem(key, value);
-            localStorage.setItem(currentCount(), form.value);
-            resetAcceptBlock();
+                localStorage.removeItem(key, value);
+                localStorage.setItem(currentCount(), form.value);
+                prepandMessage((currentCount() - 1), item);
+                item.remove();
+                resetAcceptBlock();
             } else {
-            resetAcceptBlock();
+                resetAcceptBlock();
             }
         }
     };
+}
+
+
+function prepandMessage(key, item) {
+    const message = localStorage.getItem(key);
+    const element = document.createElement('div');
+    element.classList.add('save-list__item');
+    element.id = key;
+    element.innerHTML = `
+    <div class="message-block">
+        <span class="message-block__text">${message}</span>
+        <button class="message-block__remove">Удалить</button>
+    </div>
+    `;
+
+    storageList.prepend(element);
 }
 
 
@@ -145,7 +166,6 @@ function resetAcceptBlock() {
     form.value = '';
     button.classList.remove('edit');
     button.innerHTML = 'Отправить';
-    location.reload();
 } 
 
 
@@ -158,8 +178,9 @@ function deleteMessage() {
             if(e.target.textContent == 'Удалить') {
                 keys.forEach(key => {
                     if(listItem.id == key) {
+                        console.log(listItem);
+                        listItem.remove();
                         localStorage.removeItem(key);
-                        location.reload();
                     }
                 });
             } 
@@ -173,22 +194,11 @@ function sortOfMessage() {
     const keys = Object.keys(localStorage);
 
     keys.sort((a,b) => {
-        return b - a;
+        return a - b;
     });
 
     for(let key of keys) {
-        const message = localStorage.getItem(key);
-        const element = document.createElement('div');
-        element.classList.add('save-list__item');
-        element.id = key;
-        element.innerHTML = `
-        <div class="message-block">
-            <span class="message-block__text">${message}</span>
-            <button class="message-block__remove">Удалить</button>
-        </div>
-        `;
-
-        storageList.append(element);
+        prepandMessage(key);
         }
     }
 }
@@ -199,7 +209,13 @@ function clearStorage() {
     const answer = confirm('Вы действительно хотите удалить все заметки?');
     if(answer) {
         localStorage.clear();
-        location.reload();
+        const elements = document.querySelectorAll('.save-list__item');
+        elements.forEach(item => {
+            item.remove();
+        });
+        form.focus({
+            preventScroll: true,
+        });
     }
 }
 
