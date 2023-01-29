@@ -150,6 +150,7 @@ function saveEditMessage(key, value, item) {
                 localStorage.removeItem(key);
                 item.remove();
                 counter++;
+                deleteMessage()
                 resetAcceptBlock();
             } else {
                 resetAcceptBlock();
