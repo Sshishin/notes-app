@@ -38,28 +38,26 @@ function currentCount() {
     keys.sort((a,b) => {
         return a - b;
     });
-    console.log(keys)
     keys = +keys.splice(-1)[0] + 1;
    return keys;
 } 
 
 
 function saveMessage() {
-
-    form.onkeydown = (e) => {
-        if(e.keyCode === 13) {
-            e.preventDefault();
-            submitMessage();
-        }
-    };
-
+        form.onkeydown = (e) => {
+            const acceptStatus = document.querySelector('.note-form__accept');
+            if(e.keyCode === 13 && !acceptStatus) {
+                e.preventDefault();
+                submitMessage();
+                }
+            };
     button.addEventListener('click', submitMessage);
+    
 }
 
 
 function submitMessage() {
     const message = form.value;
-    console.log(counter)
     localStorage.setItem(counter, message);
     appendMessage(message);
 }
@@ -114,49 +112,53 @@ function editMessage(e) {
 
 
 function saveEditMessage(key, value, item) {
-    console.log(item);
     const acceptBtn = document.querySelector('.note-form__submit-btn');
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
-    acceptBtn.onclick = () => {
-        if(value !== form.value) {
-                const mainKey = currentCount();
-                // console.log(mainKey)
-                localStorage.setItem(mainKey, form.value);
-                prepandMessage(mainKey, item);
-                localStorage.removeItem(key);
-                item.remove();
-                counter++;
-                resetAcceptBlock();
-        } else {
-            resetAcceptBlock();
-        }
-        
-    };
-
-    cancelBtn.onclick = () => {
-        // counter++;
-        resetAcceptBlock();
-    };
-
-    form.onkeydown = (e) => {
-        if(e.keyCode === 13 ) {
-            e.preventDefault();
+        acceptBtn.onclick = () => {
             if(value !== form.value) {
-                const mainKey = currentCount();
-                // console.log(mainKey)
-                localStorage.setItem(mainKey, form.value);
-                prepandMessage(mainKey, item);
-                localStorage.removeItem(key);
-                item.remove();
-                counter++;
-                deleteMessage()
-                resetAcceptBlock();
+                    const mainKey = currentCount();
+                    localStorage.setItem(mainKey, form.value);
+                    prepandMessage(mainKey, item);
+                    localStorage.removeItem(key);
+                    item.remove();
+                    counter++;
+                    resetAcceptBlock();
+                    deleteMessage();
             } else {
                 resetAcceptBlock();
+                saveMessage();
             }
-        }
-    };
+        };
+    
+        cancelBtn.onclick = () => {
+            resetAcceptBlock();
+            saveMessage();
+            form.focus({
+                preventScroll: true,
+            });
+        };
+
+        form.onkeydown = (e) => {
+            const acceptStatus = document.querySelector('.note-form__accept');
+
+            if(e.keyCode === 13 && acceptStatus) {
+                e.preventDefault();
+                if(value !== form.value) {
+                    const mainKey = currentCount();
+                    localStorage.setItem(mainKey, form.value);
+                    prepandMessage(mainKey, item);
+                    localStorage.removeItem(key);
+                    item.remove();
+                    counter++;
+                    resetAcceptBlock();
+                    deleteMessage();
+                } else {
+                    resetAcceptBlock();
+                    saveMessage();
+                }
+            }
+        }; 
 }
 
 
@@ -193,8 +195,7 @@ function appendAcceptBlock() {
 function resetAcceptBlock() {
     const acceptStatus = document.querySelector('.note-form__accept');
     if(acceptStatus) {
-        acceptStatus.remove();      //*********** */
- 
+        acceptStatus.remove();
     }
     form.value = '';
     button.classList.remove('edit');
@@ -219,6 +220,7 @@ function deleteMessage() {
             } 
         });
     });
+    saveMessage();   //Для того чтобы повесить обработчик снова на отправку
 }
 
 
