@@ -1,6 +1,7 @@
 @import '../header/header.css';
 @import '../note/note.css';
 @import '../save/save.css';
+@import '../dark-theme/dark-theme.css';
 
 * {
     box-sizing: border-box;
@@ -14,15 +15,3 @@ body {
     margin: 3% 5%;
 }
 
-.night-elements {
-    background-color: rgba(0, 0, 0, 0.5);
-    color: grey;
-}
-
-.night-body {
-    background-color: #000000e0;
-}
-
-.grey-text {
-    color: grey;
-}

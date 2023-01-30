@@ -19,9 +19,11 @@ if(localStorage.length < 1) {
 nightShiftBtn.onclick = changeTheme;
 
 function changeTheme() {
-    const body = document.querySelector('body');
-    const headerTitle = document.querySelector('.header__title');
-    const subtitle = document.querySelector('.save__title');
+    const body = document.querySelector('body'),
+          headerTitle = document.querySelector('.header__title'),
+          subtitle = document.querySelector('.save__title'),
+          items = document.querySelectorAll('.save-list__item');
+          
     body.classList.toggle('night-body');
     form.classList.toggle('night-elements');
     button.classList.toggle('night-elements');
@@ -30,6 +32,10 @@ function changeTheme() {
     headerTitle.classList.toggle('grey-text');
     subtitle.classList.toggle('grey-text');
     nightShiftBtn.classList.toggle('night-elements');
+
+    items.forEach((item) => {
+        item.classList.toggle('night-elements');
+    });
 }
 
 
@@ -116,21 +122,17 @@ function saveEditMessage(key, value, item) {
     const cancelBtn = document.querySelector('.note-form__cancel-btn');
 
         acceptBtn.onclick = () => {
-            if(value !== form.value) {
-                    const mainKey = currentCount();
-                    localStorage.setItem(mainKey, form.value);
-                    prepandMessage(mainKey, item);
-                    localStorage.removeItem(key);
-                    item.remove();
-                    counter++;
-                    resetAcceptBlock();
-                    deleteMessage();
-            } else {
-                resetAcceptBlock();
-                saveMessage();
-            }
+            editProcessAfterAction(key, value, item);
         };
-    
+
+        form.onkeydown = (e) => {
+            const acceptStatus = document.querySelector('.note-form__accept');
+            if(e.keyCode === 13 && acceptStatus) {
+                e.preventDefault();
+                editProcessAfterAction(key, value, item);
+            }
+        }; 
+
         cancelBtn.onclick = () => {
             resetAcceptBlock();
             saveMessage();
@@ -138,31 +140,27 @@ function saveEditMessage(key, value, item) {
                 preventScroll: true,
             });
         };
-
-        form.onkeydown = (e) => {
-            const acceptStatus = document.querySelector('.note-form__accept');
-
-            if(e.keyCode === 13 && acceptStatus) {
-                e.preventDefault();
-                if(value !== form.value) {
-                    const mainKey = currentCount();
-                    localStorage.setItem(mainKey, form.value);
-                    prepandMessage(mainKey, item);
-                    localStorage.removeItem(key);
-                    item.remove();
-                    counter++;
-                    resetAcceptBlock();
-                    deleteMessage();
-                } else {
-                    resetAcceptBlock();
-                    saveMessage();
-                }
-            }
-        }; 
 }
 
 
-function prepandMessage(key, item) {
+function editProcessAfterAction(key, value, item) {
+    if(value !== form.value) {
+        const mainKey = currentCount();
+        localStorage.setItem(mainKey, form.value);
+        prepandMessage(mainKey);
+        localStorage.removeItem(key);
+        item.remove();
+        counter++;
+        resetAcceptBlock();
+        deleteMessage();
+    } else {
+        resetAcceptBlock();
+        saveMessage();
+    }
+}
+
+
+function prepandMessage(key) {
     const message = localStorage.getItem(key);
     const element = document.createElement('div');
     element.classList.add('save-list__item');
@@ -173,9 +171,6 @@ function prepandMessage(key, item) {
         <button class="message-block__remove">Удалить</button>
     </div>
     `;
-    // if(item) {
-    //     item.remove();
-    // }
     storageList.prepend(element);
 }
 
